@@ -23,8 +23,8 @@ class MainActivity : AppCompatActivity() {
                     "${
                         rootItems?.children
                             ?.filterNotNull()
-                            ?.map {
-                                "${it.name} (uid: ${it.uid})"
+                            ?.map { category ->
+                                "${category.name} (uid: ${category.uid})"
                             }
                             ?.joinToString(separator = "\n")
                     }"
