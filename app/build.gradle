@@ -76,7 +76,7 @@ dependencies {
 
 apollo {
     service("api") {
-        packageName.set("mad.app.plptest")
+        packageName.set("mad.app.madandroidtestsolutions")
         schemaFile.set(file("src/main/graphql/schema.graphql"))
         srcDir("src/main/graphql/api")
     }
