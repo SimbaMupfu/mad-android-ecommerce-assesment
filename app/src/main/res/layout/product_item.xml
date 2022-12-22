@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/product_img"
+        android:layout_width="160dp"
+        android:layout_height="240dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginLeft="13dp"
+        android:text="Straight Fit Pants"
+        android:textSize="14sp"
+        android:fontFamily="@font/Inter_Regular"
+        android:letterSpacing="0.02"
+        android:lineSpacingExtra="3sp"
+        android:textColor="#353C43"
+        app:layout_constraintLeft_toLeftOf="@id/product_img"
+        app:layout_constraintTop_toBottomOf="@id/product_img" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/product_brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Oakridge Formal"
+        android:textSize="10sp"
+        android:fontFamily="@font/Inter_Regular"
+        android:letterSpacing="0.04"
+        android:textColor="#9A9DA0"
+        app:layout_constraintLeft_toLeftOf="@id/product_name"
+        app:layout_constraintTop_toBottomOf="@id/product_name"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="R189.99"
+        android:textSize="14sp"
+        android:fontFamily="@font/Inter_SemiBold"
+        android:textColor="#353C43"
+        app:layout_constraintLeft_toLeftOf="@id/product_brand"
+        app:layout_constraintTop_toBottomOf="@id/product_brand"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
