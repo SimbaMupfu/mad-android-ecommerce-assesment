@@ -1,19 +1,41 @@
 package mad.app.madandroidtestsolutions
 
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.apollographql.apollo3.exception.ApolloException
+import kotlinx.coroutines.channels.Channel
+import mad.app.madandroidtestsolutions.databinding.ActivityMainBinding
+import mad.app.madandroidtestsolutions.databinding.ProductItemBinding
 import mad.app.madandroidtestsolutions.service.ApiService
 
 class MainActivity : AppCompatActivity() {
 
     val apiService = ApiService.createEcommerceClient()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        val productList = mutableListOf<CategoryQuery.Item?>()
+        val adapter = ProductsListAdapter(productList)
+        binding.productsRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+        binding.productsRecyclerView.adapter = adapter
+
+        val channel = Channel<Unit>(Channel.CONFLATED)
+
+        // Send a first item to do the initial load else the list will stay empty forever
+        channel.trySend(Unit)
+        adapter.onEndOfListReached = {
+            channel.trySend(Unit)
+        }
 
         lifecycleScope.launchWhenResumed {
 
@@ -29,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                             ?.joinToString(separator = "\n")
                     }"
             )
+
 
             //Lets grab the mens Category UUID and fetch the products for the first page
             val mensCategoryId = rootItems
@@ -56,6 +79,33 @@ class MainActivity : AppCompatActivity() {
                 it.data?.products?.items?.firstOrNull()?.productListFragment?.uid
             }
 
+            var cursor: String? = null
+            for (item in channel) {
+                val response = try {
+                    apiService.catalog.fetchRootCategory()
+                } catch (e: ApolloException) {
+                    Log.d("CategoryList", "Failure", e)
+                    return@launchWhenResumed
+                }
+
+                val products = firstPageMensCat?.let {
+                    it.data?.products?.items
+                }
+
+
+                if (products != null) {
+                    productList.addAll(products)
+                    adapter.notifyDataSetChanged()
+                }
+
+//                cursor = response.data?.launches?.cursor
+//                if (response.data?.launches?.hasMore != true) {
+//                    break
+            }
+
+            adapter.onEndOfListReached = null
+            channel.close()
+
             val firstProduct = firstProductUid?.let { uid ->
                 apiService.catalog?.getProduct(uid)
             }
@@ -65,11 +115,14 @@ class MainActivity : AppCompatActivity() {
                         "This product costs at least " +
                         "R${firstProduct?.productFragment?.productListFragment?.price_range?.priceRangeFragment?.minimum_price?.final_price?.value}"
             )
+        }
+
+        adapter.onItemClicked = { launch ->
 
         }
 
-        setContent {
-            Text("Hello World")
         }
-    }
+
+
+
 }
