@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo3.exception.ApolloException
 import kotlinx.coroutines.channels.Channel
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         val productList = mutableListOf<CategoryQuery.Item?>()
         val adapter = ProductsListAdapter(productList)
-        binding.productsRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+        binding.productsRecyclerView.layoutManager = GridLayoutManager(this@MainActivity, 2)
         binding.productsRecyclerView.adapter = adapter
 
         val channel = Channel<Unit>(Channel.CONFLATED)

@@ -29,13 +29,8 @@ class ProductsListAdapter(private val productList: List<CategoryQuery.Item?>) :
             productBrand.text = product?.productListFragment?.brand
             productName.text = product?.productListFragment?.name
             productPrice.text = "R${product?.productListFragment?.price_range?.priceRangeFragment?.minimum_price?.final_price?.value}"
-//            productImg.load(product?.productListFragment?.mp_label_data?.first()?.label_image)
+            productImg.load(R.drawable.woman_dress)
         }
-//        holder.binding.site.text = product.site ?: ""
-//        holder.binding.missionName.text = product.mission?.name
-//        holder.binding.missionPatch.load(product.mission?.missionPatch) {
-//            placeholder(R.drawable.ic_placeholder)
-//        }
 
         if (position == productList.size - 1) {
             onEndOfListReached?.invoke()
