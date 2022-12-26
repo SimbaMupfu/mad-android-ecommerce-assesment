@@ -1,19 +1,13 @@
 package mad.app.madandroidtestsolutions
 
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.compose.setContent
-import androidx.compose.material3.Text
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.apollographql.apollo3.exception.ApolloException
 import kotlinx.coroutines.channels.Channel
 import mad.app.madandroidtestsolutions.databinding.ActivityMainBinding
-import mad.app.madandroidtestsolutions.databinding.ProductItemBinding
 import mad.app.madandroidtestsolutions.service.ApiService
 
 class MainActivity : AppCompatActivity() {
