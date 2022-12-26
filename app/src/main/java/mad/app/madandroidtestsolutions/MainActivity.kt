@@ -18,7 +18,7 @@ import mad.app.madandroidtestsolutions.service.ApiService
 
 class MainActivity : AppCompatActivity() {
 
-    val apiService = ApiService.createEcommerceClient()
+    private val apiService = ApiService.createEcommerceClient()
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,14 +80,7 @@ class MainActivity : AppCompatActivity() {
                 it.data?.products?.items?.firstOrNull()?.productListFragment?.uid
             }
 
-            var cursor: String? = null
             for (item in channel) {
-                val response = try {
-                    apiService.catalog.fetchRootCategory()
-                } catch (e: ApolloException) {
-                    Log.d("CategoryList", "Failure", e)
-                    return@launchWhenResumed
-                }
 
                 val products = firstPageMensCat?.let {
                     it.data?.products?.items
@@ -98,10 +91,6 @@ class MainActivity : AppCompatActivity() {
                     productList.addAll(products)
                     adapter.notifyDataSetChanged()
                 }
-
-//                cursor = response.data?.launches?.cursor
-//                if (response.data?.launches?.hasMore != true) {
-//                    break
             }
 
             adapter.onEndOfListReached = null
